@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SmartPhish Detector</title>
+</head>
+<body>
+
+    <h2>SmartPhish - Phishing Detection System</h2>
+
+    <form action="/predict" method="post">
+        <input type="text" name="url" placeholder="Enter URL" required>
+        <button type="submit">Check</button>
+    </form>
+
+    <br>
+    <h3>{{ prediction_text }}</h3>
+
+</body>
+</html>
