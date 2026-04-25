@@ -1,19 +1,114 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <title>SmartPhish Detector</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: white;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            margin-top: 100px;
+            background: white;
+            color: black;
+            padding: 30px;
+            border-radius: 12px;
+            width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+
+        h2 {
+            margin-bottom: 20px;
+        }
+
+        input[type="text"] {
+            width: 90%;
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            margin-bottom: 15px;
+        }
+
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            background-color: #2a5298;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #1e3c72;
+        }
+
+        .result {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .safe {
+            color: green;
+        }
+
+        .phishing {
+            color: red;
+        }
+
+        .layer-box {
+            margin-top: 20px;
+            background: #f1f1f1;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: left;
+        }
+    </style>
 </head>
 <body>
 
-    <h2>SmartPhish - Phishing Detection System</h2>
+    <div class="container">
+        <h2>🔐 SmartPhish Detector</h2>
 
-    <form action="/predict" method="post">
-        <input type="text" name="url" placeholder="Enter URL" required>
-        <button type="submit">Check</button>
-    </form>
+        <form action="/predict" method="post">
+            <input type="text" name="url" placeholder="Enter website URL..." required>
+            <br>
+            <button type="submit">Check URL</button>
+        </form>
 
-    <br>
-    <h3>{{ prediction_text }}</h3>
+        {% if prediction_text %}
+            <div class="result 
+                {% if 'Legitimate' in prediction_text %}
+                    safe
+                {% else %}
+                    phishing
+                {% endif %}
+            ">
+                {{ prediction_text }}
+            </div>
+        {% endif %}
+
+        <!-- 🔥 ADD THIS BLOCK BELOW RESULT -->
+        {% if ml_score is defined %}
+        <div class="layer-box">
+            <h3>🔍 Layer-wise Analysis</h3>
+            
+            <p>🧠 ML Layer: <b>{{ ml_score }}</b></p>
+            <p>📏 Rule Layer: <b>{{ rule_score }}</b></p>
+            <p>🌐 Domain Layer: <b>{{ domain_score }}</b></p>
+            <p>🔐 SSL Layer: <b>{{ ssl_score }}</b></p>
+        </div>
+        {% endif %}
+
+    </div>
 
 </body>
 </html>
